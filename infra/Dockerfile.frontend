@@ -1,17 +1,31 @@
+# ──────────────────────────────────────────────────────────────
 # infra/Dockerfile.frontend
 #
-# Purpose: Build a local Docker image for the React + Vite frontend.
-# Team responsibility: `frontend/` contains UI code.
+# Builds the local dev image for the React + Vite frontend.
 #
-# Placeholder scaffold:
-# - Add dependency install and dev/build/serve steps once the frontend
-#   implementation is added.
+# Key concepts for students:
+#   - We copy package.json first so `npm install` is cached by
+#     Docker until dependencies change.
+#   - The Vite dev server binds to 0.0.0.0 so the host machine
+#     can reach it through the Docker port mapping.
+#   - Source code is volume-mounted by docker-compose.yml for
+#     live hot-module-reload during development.
+#
+# Instructor-owned file — students should NOT need to edit this.
+# ──────────────────────────────────────────────────────────────
 
 FROM node:20-alpine
 
 WORKDIR /app
 
-# TODO: Copy package.json + install deps.
-# TODO: Copy frontend source.
-# TODO: Start Vite dev server or serve build output.
+# --- Layer 1: install npm dependencies (cached until package.json changes) ---
+COPY frontend/package.json frontend/package-lock.json* ./
+RUN npm install
 
+# --- Layer 2: copy application source ---
+COPY frontend/ .
+
+EXPOSE 5173
+
+# Start the Vite dev server with HMR accessible from the host.
+CMD ["npm", "run", "dev"]

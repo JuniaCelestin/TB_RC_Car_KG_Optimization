@@ -23,8 +23,45 @@ This repository is organized around a simple end-to-end workflow:
 
 ## Local development model (Docker-first)
 
-The intended default workflow is to run everything via `docker-compose.yml` using the `Makefile` commands.
-At this stage the repo is scaffolded with descriptive placeholders (no working application logic yet), so you can safely start filling in modules team-by-team.
+Stack definitions and Dockerfiles live under `infra/`:
+
+- **`infra/docker/docker-compose.yml`** — canonical Compose file (`frontend`, `backend`, `neo4j`)
+- **`docker-compose.yml`** (repo root) — includes the file above so you can run `docker compose` from the project root
+- **`infra/Dockerfile.backend`** / **`infra/Dockerfile.frontend`** — dev images for the API and UI
+
+**Full command reference (ports, logs, troubleshooting, optional compose path):** see [`infra/docker/README.md`](infra/docker/README.md).
+
+### Quick start
+
+From the **repository root** (where this `README.md` is):
+
+1. Copy environment defaults from `.env.example` to `.env`.
+
+   **Windows**
+
+   ```powershell
+   Copy-Item .env.example .env
+   ```
+
+   **Mac and Linux**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Start the stack:
+
+   ```bash
+   docker compose up --build
+   ```
+
+3. Stop when finished:
+
+   ```bash
+   docker compose down
+   ```
+
+Optional: use **`Makefile`** targets (`make up`, `make down`, …) if you have `make` installed (common on Mac and Linux).
 
 ## Where to edit
 
@@ -41,7 +78,8 @@ Treat the folder boundaries below as the “contract” between teams:
 ├── README.md
 ├── LICENSE
 ├── Makefile
-├── docker-compose.yml
+├── docker-compose.yml          # includes infra/docker/docker-compose.yml
+├── .env.example
 ├── backend/
 │   ├── requirements.txt
 │   └── app/
@@ -103,6 +141,9 @@ Treat the folder boundaries below as the “contract” between teams:
 │       ├── data_team_workflow.md
 │       └── electrical_team_workflow.md
 ├── infra/
+│   ├── docker/
+│   │   ├── docker-compose.yml
+│   │   └── README.md
 │   ├── Dockerfile.backend
 │   └── Dockerfile.frontend
 └── scripts/

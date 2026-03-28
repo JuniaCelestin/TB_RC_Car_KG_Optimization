@@ -1,17 +1,36 @@
+# ──────────────────────────────────────────────────────────────
 # infra/Dockerfile.backend
 #
-# Purpose: Build a local Docker image for the FastAPI backend.
-# Team responsibility: `backend/` is the source-of-truth for API code.
+# Builds the local dev image for the FastAPI backend.
 #
-# Placeholder scaffold:
-# - Add dependency installation and application launch steps here once
-#   the backend Python modules are implemented.
+# Key concepts for students:
+#   - Multi-step COPY: we copy requirements.txt first so Docker
+#     can cache the dependency-install layer. Source code changes
+#     won't re-download packages.
+#   - WORKDIR sets the default directory inside the container.
+#   - ENV vars configure Python to behave well in containers.
+#   - CMD launches the app; --reload enables hot-reload during dev.
+#
+# Instructor-owned file — students should NOT need to edit this.
+# ──────────────────────────────────────────────────────────────
 
 FROM python:3.11-slim
 
 WORKDIR /app
 
-# TODO: Copy requirements + install deps.
-# TODO: Copy backend source.
-# TODO: Set environment variables and run `uvicorn`.
+# Prevent .pyc files and force unbuffered stdout/stderr so logs
+# show up immediately in `docker compose logs`.
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
+# --- Layer 1: install Python dependencies (cached until requirements.txt changes) ---
+COPY backend/requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# --- Layer 2: copy application source ---
+COPY backend/ .
+
+EXPOSE 8000
+
+# Start uvicorn with live-reload so students see changes instantly.
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

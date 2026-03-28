@@ -1,14 +1,14 @@
 #!/usr/bin/env sh
-#
+# ──────────────────────────────────────────────────────────────
 # scripts/run_backend.sh
 #
-# Purpose:
-# Convenience wrapper to start the backend service locally (via Docker).
+# Start the FastAPI backend (and its Neo4j dependency) via Docker.
 #
-# What code should live here:
-# - `docker compose up backend`
+# Usage:  sh scripts/run_backend.sh
 #
-# Placeholder only.
+# Instructor-owned file — students should NOT need to edit this.
+# ──────────────────────────────────────────────────────────────
+set -eu
 
-echo "Run backend placeholder: docker compose up backend"
-
+echo "▶ Starting backend + neo4j..."
+docker compose up --build backend

@@ -1,14 +1,14 @@
 #!/usr/bin/env sh
-#
+# ──────────────────────────────────────────────────────────────
 # scripts/run_frontend.sh
 #
-# Purpose:
-# Convenience wrapper to start the frontend service locally (via Docker).
+# Start the Vite frontend (and its backend dependency) via Docker.
 #
-# What code should live here:
-# - `docker compose up frontend`
+# Usage:  sh scripts/run_frontend.sh
 #
-# Placeholder only.
+# Instructor-owned file — students should NOT need to edit this.
+# ──────────────────────────────────────────────────────────────
+set -eu
 
-echo "Run frontend placeholder: docker compose up frontend"
-
+echo "▶ Starting frontend (+ backend + neo4j)..."
+docker compose up --build frontend

@@ -1,12 +1,10 @@
 # backend/requirements.txt
 #
-# Purpose: Python dependencies for the FastAPI backend.
-# Code ownership: `backend/` source-of-truth for chatbot + graph query API.
-#
-# Placeholder scaffold (edit when implementing backend modules):
-# fastapi
-# uvicorn[standard]
-# pydantic
-# neo4j
-# python-dotenv
+# Python dependencies for the FastAPI backend.
+# These are installed inside the Docker container during image build.
 
+fastapi
+uvicorn[standard]
+pydantic
+neo4j
+python-dotenv

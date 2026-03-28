@@ -1,46 +1,11 @@
-# docker-compose.yml
+# ──────────────────────────────────────────────────────────────
+# docker-compose.yml (repository root)
 #
-# Purpose: Shared local dev environment for:
-# - `frontend/` (React + Vite)
-# - `backend/` (FastAPI)
-# - `neo4j` (graph database)
+# Entry point for `docker compose` when run from the repo root.
+# The full stack lives in infra/docker/docker-compose.yml.
 #
-# Note: This scaffold uses placeholder Dockerfiles. Team modules can be
-# implemented incrementally without changing the repo layout.
+# Docs: infra/docker/README.md
+# ──────────────────────────────────────────────────────────────
 
-services:
-  frontend:
-    build:
-      context: .
-      dockerfile: infra/Dockerfile.frontend
-    ports:
-      - "${FRONTEND_PORT:-5173}:5173"
-    environment:
-      - BACKEND_PORT=${BACKEND_PORT:-8000}
-    volumes:
-      - ./frontend:/app
-
-  backend:
-    build:
-      context: .
-      dockerfile: infra/Dockerfile.backend
-    ports:
-      - "${BACKEND_PORT:-8000}:8000"
-    env_file:
-      - .env
-    volumes:
-      - ./backend:/app
-
-  neo4j:
-    image: neo4j:5
-    ports:
-      - "7474:7474"
-      - "7687:7687"
-    environment:
-      - NEO4J_AUTH=${NEO4J_USERNAME:-neo4j}/${NEO4J_PASSWORD:-password}
-    volumes:
-      - neo4j_data:/data
-
-volumes:
-  neo4j_data:
-
+include:
+  - path: infra/docker/docker-compose.yml
