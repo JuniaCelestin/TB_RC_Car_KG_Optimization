@@ -49,6 +49,8 @@ From the **repository root** (where this `README.md` is):
    cp .env.example .env
    ```
 
+   Edit `.env` and add a **Google Gemini** API key (free tier) from [Google AI Studio](https://aistudio.google.com/apikey) as `GEMINI_API_KEY`. The chat backend uses Gemini to turn questions into read-only Cypher queries against Neo4j.
+
 2. Start the stack:
 
    ```bash
@@ -62,6 +64,8 @@ From the **repository root** (where this `README.md` is):
    ```
 
 Optional: use **`Makefile`** targets (`make up`, `make down`, …) if you have `make` installed (common on Mac and Linux).
+
+**System architecture diagram:** see [docs/architecture/system_overview.md](docs/architecture/system_overview.md) for a visual walkthrough of the offline data pipeline and the online chat path.
 
 ## Where to edit
 

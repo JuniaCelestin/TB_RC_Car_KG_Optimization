@@ -1,14 +1,76 @@
 """
-backend/app/services/graph_client.py
+Neo4j driver wrapper: connect and run parameterized Cypher.
 
-Purpose:
-Centralize Neo4j connectivity + query execution.
+The _GraphClient class uses a singleton driver pattern — one connection
+pool is shared across the whole app regardless of how many requests come in.
 
-What code should live here:
-- create Neo4j driver from config
-- run Cypher queries (parameterized)
-- translate raw query results into Python structures
+What is already done for you:
+  - The driver initialization (singleton pattern in __init__).
+  - verify_connectivity() for health checks.
+  - close_graph_driver() for shutdown cleanup.
 
-This is a placeholder scaffold.
+What you need to implement:
+  - run_query() — execute a Cypher string against Neo4j and return the rows.
 """
 
+from __future__ import annotations
+
+from neo4j import Driver, GraphDatabase
+
+from app.core.config import get_settings
+
+_driver: Driver | None = None
+
+
+def get_graph_client() -> "_GraphClient":
+    return _GraphClient()
+
+
+class _GraphClient:
+    """Thin facade over a singleton driver (one pool per process)."""
+
+    def __init__(self) -> None:
+        global _driver
+        if _driver is None:
+            s = get_settings()
+            _driver = GraphDatabase.driver(
+                s.neo4j_uri,
+                auth=(s.neo4j_username, s.neo4j_password),
+            )
+
+    def verify_connectivity(self) -> None:
+        assert _driver is not None
+        _driver.verify_connectivity()
+
+    def run_query(self, query: str, parameters: dict | None = None) -> list[dict]:
+        # TODO-1 (Required): Execute the Cypher query and return results as a list of dicts.
+        #
+        # The Neo4j Python driver works like this:
+        #   1. Open a session:       with _driver.session() as session:
+        #   2. Run the query:            result = session.run(query, parameters)
+        #   3. Iterate over records:     for record in result:
+        #   4. Convert each to a dict:       record.data()  → {"name": "Lap 1", ...}
+        #   5. Collect into a list and return it.
+        #
+        # Don't forget:
+        #   - `parameters` might be None — default it to {} if so.
+        #   - `_driver` is the module-level singleton (already set by __init__).
+        #
+        # Skeleton:
+        #   assert _driver is not None
+        #   parameters = parameters or {}
+        #   rows: list[dict] = []
+        #   with _driver.session() as session:
+        #       result = session.run(query, parameters)
+        #       for record in result:
+        #           rows.append(record.data())
+        #   return rows
+
+        raise NotImplementedError("TODO-1: Execute the Cypher query and return the results.")
+
+
+def close_graph_driver() -> None:
+    global _driver
+    if _driver is not None:
+        _driver.close()
+        _driver = None

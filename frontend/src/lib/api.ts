@@ -1,14 +1,39 @@
 /**
  * frontend/src/lib/api.ts
  *
- * Purpose:
- * Central API client functions used by frontend components.
+ * Central API client functions used by frontend components to talk to the backend.
  *
- * What code should live here:
- * - `getHealth()` for `/health`
- * - `sendChat(question)` for `/chat`
- * - shared fetch/axios wrapper (base URL, headers, error handling)
+ * What is already done for you:
+ *   - The file structure and the backend base URL constant.
+ *
+ * What you need to implement:
+ *   - A sendChat() function that POSTs a question to /chat.
+ *   - An optional getHealth() function that GETs /health.
  */
 
-export {};
+import type { ChatRequest, ChatResponse } from "../types/chat";
 
+const BASE_URL = "http://localhost:8000";
+
+// TODO-1 (Required): Implement sendChat().
+//
+// This function should:
+//   1. Accept a `message` string parameter.
+//   2. Send a POST request to `${BASE_URL}/chat` with:
+//      - Header: "Content-Type": "application/json"
+//      - Body: JSON.stringify({ message })      ← this matches ChatRequest
+//   3. Check if the response is ok (response.ok). If not, throw an Error
+//      with the status text or parsed error detail.
+//   4. Parse the JSON response and return it as ChatResponse.
+//
+// Signature:
+//   export async function sendChat(message: string): Promise<ChatResponse> { ... }
+
+// TODO-2 (Optional): Implement getHealth().
+//
+// This function should:
+//   1. Send a GET request to `${BASE_URL}/health`.
+//   2. Parse and return the JSON response.
+//
+// Signature:
+//   export async function getHealth(): Promise<{ status: string; neo4j: string; gemini_configured: boolean }> { ... }

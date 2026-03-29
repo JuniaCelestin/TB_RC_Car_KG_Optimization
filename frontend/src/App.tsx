@@ -1,16 +1,26 @@
 /**
  * frontend/src/App.tsx
  *
- * Purpose:
- * Top-level frontend component.
+ * Top-level React component — the entry point for the UI.
  *
- * What code should live here:
- * - routing (chat page)
- * - app-level layout wrappers
- * - page-level state wiring (later)
+ * What is already done for you:
+ *   - main.tsx will render <App />, so this component controls the whole page.
  *
- * Placeholder only.
+ * What you need to implement:
+ *   - Import and render the ChatLayout component.
  */
 
-export default {};
+// TODO-1 (Required): Import ChatLayout and render it.
+//
+// Steps:
+//   1. Import the ChatLayout component:
+//        import ChatLayout from "./components/ChatLayout";
+//
+//   2. Replace the placeholder return below with:
+//        return <ChatLayout />;
+//
+//   Optional: wrap it in a container div with a title/header if you want.
 
+export default function App() {
+  return <div>Replace me with ChatLayout</div>;
+}
