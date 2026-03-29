@@ -72,16 +72,6 @@ docker compose up --build backend
 docker compose up --build frontend
 ```
 
-## Explicit compose file path
-
-If you prefer to point at this folder directly:
-
-```bash
-docker compose -f infra/docker/docker-compose.yml up --build
-```
-
-Use the same `-f infra/docker/docker-compose.yml` prefix with `down`, `logs`, `ps`, etc.
-
 ## Ports in use
 
 If you see “port already allocated”, pick different host ports:

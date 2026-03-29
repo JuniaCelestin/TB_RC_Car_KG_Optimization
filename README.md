@@ -47,13 +47,10 @@ This repository is organized around a simple end-to-end workflow:
 
 ## Local development model (Docker-first)
 
-Stack definitions and Dockerfiles live under `infra/`:
-
-- **`infra/docker/docker-compose.yml`** — canonical Compose file (`frontend`, `backend`, `neo4j`)
-- **`docker-compose.yml`** (repo root) — includes the file above so you can run `docker compose` from the project root
+- **`docker-compose.yml`** (repo root) — defines the full stack (`frontend`, `backend`, `neo4j`)
 - **`infra/Dockerfile.backend`** / **`infra/Dockerfile.frontend`** — dev images for the API and UI
 
-**Full command reference (ports, logs, troubleshooting, optional compose path):** see [`infra/docker/README.md`](infra/docker/README.md).
+**Full command reference (ports, logs, troubleshooting):** see [`infra/docker/README.md`](infra/docker/README.md).
 
 ### Quick start
 
@@ -143,7 +140,7 @@ Every file that students need to implement contains globally numbered `TODO` com
 ├── README.md
 ├── LICENSE
 ├── Makefile
-├── docker-compose.yml            # includes infra/docker/docker-compose.yml
+├── docker-compose.yml            # full stack: frontend, backend, neo4j
 ├── .env.example
 ├── backend/
 │   ├── requirements.txt
@@ -199,7 +196,6 @@ Every file that students need to implement contains globally numbered `TODO` com
 │       └── system_overview.md
 ├── infra/
 │   ├── docker/
-│   │   ├── docker-compose.yml
 │   │   └── README.md
 │   ├── Dockerfile.backend
 │   └── Dockerfile.frontend
